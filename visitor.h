@@ -1,13 +1,16 @@
 #include <iostream>
 #pragma once
 class visitor
-{   int no_of_visitors,no_of_days;//<=3
+{   int no_of_visitors;
+    int no_of_days;
     float rate;
-    char name_visitors[3][20];
-    char purpose_visit[20];
-    char hotel_style,food;
+    std::vector<std::string> name_visitors;
+    std::string purpose_visit;
+    char hotel_style;
+    char food;
 public:
-    visitor(){no_of_visitors=0;}
+    visitor()(int no_of_visitors=3):no_of_visitors(no_of_visitors){
+    }
     void visitor_input();
     float rate_to_be_paid();
     void deduct(float &balance);
