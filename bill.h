@@ -7,8 +7,7 @@ class bill
     float cash;
 
 public:
-    bill() : {
-        cash = 50000;
+    bill()(int cash = 50000):cash(cash){
     }
     void update_balance(float balance)
     {   
