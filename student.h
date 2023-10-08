@@ -6,11 +6,13 @@
 #include "bill.h"
 #include "timetable.h"
 class student:public timetable
-{   int rollno,count_tokken,vc;
-    char name[20];
+{   int rollno;
+    int count_tokken;
+    int vc;
+    str:sting name;
     char gender;
     float balance;
-    token p[10];
+    std::vector<token> p(10);
     bill B;
     visitor P;
 public:
