@@ -7,11 +7,13 @@
 #include "timetable.h"
 class professor:public timetable
 {
-    int id,count_tokken,vc;
-    char name[20];
+    int id;
+    int count_tokken;
+    int vc;
+    std:string name;
     char gender;
     float balance;
-    token p[10];
+    std::vector<token> p(10);
     bill B;
     visitor v;
 public:
