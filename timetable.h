@@ -76,50 +76,46 @@ public:
     }
     void edit_timetable(int f=0)//flag is set one only for mess supervisor
     {
-        if(f==1)
-        {
+        if (f == 1) {
             std::vector<std::string> days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
             std::string day;
-            view_timetable();
-            cout<<"Which day's timetable do you want to edit?(first letter caps) ";
-            cin>>day;
-            fstream fout("timetable.txt");
-            for(int i=0;i<7;i++)
-            {
-                if(strcmp(days[i],day)==0)
-                {
+
+            std::cout << "Which day's timetable do you want to edit? (First letter caps) ";
+            std::cin >> day;
+
+            std::fstream fout("timetable.txt");
+
+            for (int i = 0; i < 7; i++) {
+                if (days[i] == day) {
                     char time;
-                    cout<<"Do you want to edit breakfast(b)/lunch(l)/snacks(s)/dinner(d)? ";
-                    cin>>time;
-                    cin.ignore();
-                    if(time=='b')
-                    {
-                        cout<<"Enter the dish to modify  : ";
-                        gets(b[i]);
-                    }
-                    else if(time=='l')
-                    {
-                        cout<<"Enter the dish to modify  : ";
-                        gets(l[i]);
-                    }
-                    else if(time=='s')
-                    {
-                        cout<<"Enter the dish to modify  : ";
-                        gets(s[i]);
-                    }
-                    else if(time=='d')
-                    {
-                        cout<<"Enter the dish to modify  : ";
-                        gets(d[i]);
+
+                    std::cout << "Do you want to edit breakfast(b)/lunch(l)/snacks(s)/dinner(d)? ";
+                    std::cin >> time;
+                    std::cin.ignore();
+
+                    switch (time) {
+                        case 'b':
+                            editDish(b[i]);
+                            break;
+                        case 'l':
+                            editDish(l[i]);
+                            break;
+                        case 's':
+                            editDish(s[i]);
+                            break;
+                        case 'd':
+                            editDish(d[i]);
+                            break;
+                        default:
+                            std::cout << "Invalid option. No changes made." << std::endl;
                     }
                 }
-                fout<<b[i]<<endl<<l[i]<<endl<<s[i]<<endl<<d[i]<<endl;
+                fout << b[i] << std::endl << l[i] << std::endl << s[i] << std::endl << d[i] << std::endl;
             }
             fout.close();
-        }
-        else
-        {
-            cout<<"\nSorry, you are not eligible to edit the timetable!!!";
+        } 
+        else {
+            std::cout << "\nSorry, you are not eligible to edit the timetable!!!" << std::endl;
         }
     }
 };
