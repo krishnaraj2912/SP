@@ -4,12 +4,13 @@
 #pragma once
 class messsupervisor:public timetable
 {
-    int id,i;
-    char name[20];
+    int id;
+    int i;
+    std:sting name;
     char gender;
     float salary;
     float balance;
-    leave b[10];
+    std::vector<leave> b(10);
 public:
     void messsupervisor_input();
     void menu();
