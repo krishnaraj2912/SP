@@ -3,12 +3,15 @@
 #pragma once
 class timetable
 {private:
-    char b[7][20],l[7][20],s[7][20],d[7][20];
+    std::vector<std::string> b(7);
+    std::vector<std::string> l(7);
+    std::vector<std::string> s(7);
+    std::vector<std::string> d(7);
 public:
     void create_timetable(int f=0)
     {   ofstream fout;
         fout.open("timetable.txt");
-        char days[7][20]={"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"};
+        std::vector<std::string> days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
         for(int i=0;i<7;i++)
         {
             cout<<"Enter the Breakfast for "<<days[i]<<" : ";
@@ -29,8 +32,11 @@ public:
         fout.close();
     }
     void view_timetable()
-    {   string e,f,g,h;
-        char days[7][20]={"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"};
+    {   std:string e;
+        std:string f;
+        std:string g;
+        std:string h;
+        std::vector<std::string> days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
         ifstream fin("timetable.txt");
         cout<<"\t\tBreakfast \t"<<"Lunch\t\t"<<"Snacks\t\t"<<"Dinner\n";
         for(int i=0;i<7;i++)
@@ -72,7 +78,8 @@ public:
     {
         if(f==1)
         {
-            char days[7][20]={"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"},day[20];
+            std::vector<std::string> days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+            std::string day;
             view_timetable();
             cout<<"Which day's timetable do you want to edit?(first letter caps) ";
             cin>>day;
