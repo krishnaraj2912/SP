@@ -5,11 +5,13 @@
 #pragma once
 class messworker:public timetable
 {
-    int id,i,countdays;
-    char name[20];
+    int id;
+    int i;
+    int countdays;
+    str:sting name;
     char gender;
     float salary;
-    leave a[10];
+    std::vector<leave> a(10);
 public:
     void messworker_input();
     void menu();
@@ -52,7 +54,7 @@ void messworker::menu()
 
         }
         else if(ch==5)
-        {   cout<<"\n DO you want to tell boss that your monthly pay is not yet given:";;
+        {   cout<<"\n Do you want to tell boss that your monthly pay is not yet given:";
             char cht;
             cin>>cht;
             if(cht=='Y'||cht=='y')
