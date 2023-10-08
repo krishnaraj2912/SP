@@ -6,13 +6,16 @@
 using namespace std;
 
 int main()
-{   cout<<"\n Login as 1)admin 2)others:";
+{   
+    cout<<"\n Login as 1)admin 2)others:";
     int chl;
     cin>>chl;
     if(chl==1)
-    {   messsupervisor p4;
+    {   
+        messsupervisor p4;
         cout<<"\n Enter admin id:";
-        char id[30],PS[30];
+        std:string id;
+        std:string PS;
         cin.ignore();
         gets(id);
         cout<<"\n Enter the password:";
