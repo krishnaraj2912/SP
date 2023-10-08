@@ -18,7 +18,7 @@ int token::ret_token() const
 }
 void token::apply_token()
 {   std::vector<std::string> vfood={"Kadai paneer","chilli gobi","pav bhaji","gobi manchurian","vada pav","lasagne","pasta","veg biryani","aloo makan","aloo tiki"};
-    std::vector<std::string> nvfood[12][30]={"Butter chicken","chicken 65","biryani","chicken tikka masala","omellete","kolidhi chicken","fish cury","chicken tikka masala","chicken tikka"};
+    std::vector<std::string> nvfood={"Butter chicken","chicken 65","biryani","chicken tikka masala","omellete","kolidhi chicken","fish cury","chicken tikka masala","chicken tikka"};
     cout<<"\n Types of token 1.veg 2.non veg:";
     int ch2;
     cin>>ch2;
