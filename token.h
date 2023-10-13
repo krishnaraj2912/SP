@@ -24,7 +24,13 @@ void token::apply_token()
     cin>>ch2;
     if(ch2==1)
     {   
-        srand(static_cast<unsigned>(time(nullptr)));
+        auto current_time = std::chrono::system_clock::now();
+        auto time_since_epoch = current_time.time_since_epoch();
+        auto seconds = std::chrono::duration_cast<std::chrono::seconds>(time_since_epoch);
+
+        unsigned int seed = static_cast<unsigned int>(seconds.count());
+    
+        srand(seed);
         int d=rand()%10;
         cout<<"\n Today s token is :" <<vfood[d]<<"\n Do you want to apply(y/n)";
         char ch3;
