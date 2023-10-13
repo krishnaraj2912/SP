@@ -6,183 +6,90 @@
 #include "messworker.h"
 //#include "messsupervisor.h"
 #pragma once
-class ui
-{   int loginid;
-    string password;
-    string cpassword;
- public:
-    student p1;
-    professor p2;
-    messworker p3;
-  //  messsupervisor p4;
-    void display(ui E);
 
+struct User {
+    int loginid;
+    std::string password;
 };
-void ui::display(ui E)
-{   cout<<"\n LOGIN SYTEM 1.STUDENT 2.PROFESSOR 3.MESS WORKER  ";
-        cout<<"\n Enter your choice : ";
-        int ch;
-        cin>>ch;
-        if(ch==1)
-        {   cout<<"\n Menu 1.New id 2.login old id ";
-            int ch1;
-            cin>>ch1;
-            if(ch1==1)
-            {   cout<<"\n Enter your id (no) you would like to have : ";
-                cin>>E.loginid;
-                do{
-                    cout<<"\n Enter the password:";
-                    cin.ignore();
-                    gets(E.password);
-                    cout<<"\n Enter the password again for conformation : ";
-                    gets(E.cpassword);
-                    if(strcmp(E.password,E.cpassword)==0)
-                        break;
-                }while(true);
-                E.p1.student_input();
-               // cout<<"\n id:"<<E.password<<","<<E.loginid;
-                ofstream fout("student.dat",ios::out|ios::binary|ios::app);
-                fout.write((char*)&E,sizeof(E));
-                fout.close();
-            }
-            else if(ch1==2)
-            {   cout<<"\n Enter your login id : ";
-                int lg;
-                string ps;
-                cin>>lg;
-                cin.ignore();
-                cout<<"\n enter your password : ";
-                gets(ps);
-                ui A;
-                int f=0;
-                ifstream fin("student.dat",ios::in|ios::binary);
 
-                while(fin.read((char*)&A,sizeof(A)))
-                {   //cout<<"hi:"<<A.loginid<<","<<A.password;
-                    if(A.loginid==lg &&strcmp(A.password,ps)==0)
-                    {   cout<<"\nWelcome back\n";
-                        f=1;
-                        break;
+class UserInterface {
+public:
+    void menu() {}
+};
 
-                    }
+User createUserAccount() {
+    User user;
+    std::cout << "\n Enter your id (no) you would like to have: ";
+    std::cin >> user.loginid;
 
-                }
-                if(f==0)
-                    cout<<"\n wrong credentials";
-            //using this do all student stuff.
-                else
-                {   A.p1.menu();
-                }
-            }
+    do {
+        std::cout << "\n Enter the password: ";
+        std::cin >> user.password;
+        std::string confirmPassword;
+        std::cout << "\n Enter the password again for confirmation: ";
+        std::cin >> confirmPassword;
+
+        if (user.password == confirmPassword) {
+            return user;
         }
-        else if(ch==2)
-        {
-            cout<<"\n Menu 1.New id 2.login old id ";
-            int ch1;
-            cin>>ch1;
-            if(ch1==1)
-            {
-                cout<<"\n Enter your id (no) you would like to have : ";
-                cin>>E.loginid;
-                do
-                {
-                    cout<<"\n Enter the password : ";
-                    cin.ignore();
-                    gets(E.password);
-                    cout<<"\n Enter the password again for conformation : ";
-                    gets(E.cpassword);
-                    if(strcmp(E.password,E.cpassword)==0)
-                        break;
-                }while(true);
-                E.p2.professor_input();
-                ofstream fout("professor.dat",ios::out|ios::binary|ios::app);
-                fout.write((char*)&E,sizeof(E));
-            }
-            else if(ch1==2)
-            {
-                cout<<"\n Enter your login id : ";
-                int lg;
-                string ps;
-                cin>>lg;
-                cout<<"\n enter your password : ";
-                cin.ignore();
-                gets(ps);
-                ui A;
-                int f=0;
-                ifstream fin("professor.dat",ios::in|ios::binary);
-                while(fin.read((char*)&A,sizeof(A)))
-                {
-                    if(A.loginid==lg &&strcmp(A.password,ps)==0)
-                    {
-                        cout<<"\nWelcome back\n";
-                        f=1;
-                        break;
-                    }
-                }
-                if(f==0)
-                    cout<<"\n wrong credentials";
-                //using this do all student stuff.
-                else
-                    {
-                        A.p2.menu();
-                    }
-            }
-        }
-        else if(ch==3)
-        {
-            cout<<"\n Menu 1.New id 2.login old id ";
-            int ch1;
-            cin>>ch1;
-            if(ch1==1)
-            {
-                cout<<"\n Enter your id (no) you would like to have : ";
-                cin>>E.loginid;
-                do
-                {
-                    cin.ignore();
-                    cout<<"\n Enter the password : ";
-                    gets(E.password);
-                    cout<<"\n Enter the password again for conformation : ";
-                    gets(E.cpassword);
-                    if(strcmp(E.password,E.cpassword)==0)
-                        break;
-                }while(true);
-                E.p3.messworker_input();
-                ofstream fout("messworker.dat",ios::out|ios::binary|ios::app);
-                fout.write((char*)&E,sizeof(E));
-            }
-            else if(ch1==2)
-            {
-                cout<<"\n Enter your login id : ";
-                int lg;
-                string ps;
-                cin>>lg;
-                cin.ignore();
-                cout<<"\n enter your password : ";
-                gets(ps);
-                ui A;
-                int f=0;
-                ifstream fin("messworker.dat",ios::in|ios::binary);
-                while(fin.read((char*)&A,sizeof(A)))
-                {
-                    if(A.loginid==lg &&strcmp(A.password,ps)==0)
-                    {
-                        cout<<"\nWelcome back\n";
-                        f=1;
-                        break;
-                    }
-                }
-                if(f==0)
-                    cout<<"\n wrong credentials";
-                //using this do all student stuff.
-                else
-                {
-                    A.p3.menu();
-                }
+    } while (true);
+}
 
-            }
-            else
-                cout<<"\n invalid choice:";
-
+User login(std::ifstream& file, int loginid, const std::string& password) {
+    User user;
+    while (file.read(reinterpret_cast<char*>(&user), sizeof(user))) {
+        if (user.loginid == loginid && user.password == password) {
+            return user;
         }
+    }
+    throw std::runtime_error("Invalid credentials");
+}
+
+std::string getUserTypeFileName(int userType) {
+    if (userType == 1) {
+        return "student.dat";
+    } else if (userType == 2) {
+        return "professor.dat";
+    } else if (userType == 3) {
+        return "messworker.dat";
+    }
+    throw std::runtime_error("Invalid user type");
+}
+
+int main() {
+    std::cout << "\n LOGIN SYSTEM 1.STUDENT 2.PROFESSOR 3.MESS WORKER ";
+    std::cout << "\n Enter your choice: ";
+    int userType;
+    std::cin >> userType;
+
+    User user;
+    UserInterface userInterface;
+
+    if (userType >= 1 && userType <= 3) {
+        std::cout << "\n Menu 1.New id 2.Login old id ";
+        int choice;
+        std::cin >> choice;
+
+        if (choice == 1) {
+            user = createUserAccount();
+            std::ofstream file;
+            file.open(getUserTypeFileName(userType), std::ios::out | std::ios::binary | std::ios::app);
+            file.write(reinterpret_cast<char*>(&user), sizeof(user));
+        } else if (choice == 2) {
+            std::cout << "\n Enter your login id: ";
+            int loginid;
+            std::cin >> loginid;
+            std::cout << "\n Enter your password: ";
+            std::string password;
+            std::cin >> password;
+            std::ifstream file;
+            file.open(getUserTypeFileName(userType), std::ios::in | std::ios::binary);
+            user = login(file, loginid, password);
+            userInterface.menu();
+        }
+    } else {
+        std::cout << "\n Invalid user type choice";
+    }
+
+    return 0;
 }
