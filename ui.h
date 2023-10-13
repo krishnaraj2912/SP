@@ -20,7 +20,7 @@ public:
     void studentMenu();
     void professorMenu();
     void messWorkerMenu();
-    void registerAndLogin(const std::string& userType, const std::string& dataFile, void (UI::*inputFunc)());
+    void registerAndLogin(const std::string& userType, const std::string& dataFile, std::function<void(UI&)> inputFunc);
 };
 
 void UI::display() {
