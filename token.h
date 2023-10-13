@@ -24,7 +24,7 @@ void token::apply_token()
     cin>>ch2;
     if(ch2==1)
     {   
-        srand(time(0));
+        srand(static_cast<unsigned>(time(nullptr)));
         int d=rand()%10;
         cout<<"\n Today s token is :" <<vfood[d]<<"\n Do you want to apply(y/n)";
         char ch3;
