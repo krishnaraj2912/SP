@@ -102,7 +102,7 @@ void ui::display(ui E)
             {
                 cout<<"\n Enter your login id : ";
                 int lg;
-                char ps[20];
+                string ps;
                 cin>>lg;
                 cout<<"\n enter your password : ";
                 cin.ignore();
@@ -146,7 +146,7 @@ void ui::display(ui E)
                     gets(E.cpassword);
                     if(strcmp(E.password,E.cpassword)==0)
                         break;
-                }while(1);
+                }while(true);
                 E.p3.messworker_input();
                 ofstream fout("messworker.dat",ios::out|ios::binary|ios::app);
                 fout.write((char*)&E,sizeof(E));
