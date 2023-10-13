@@ -20,6 +20,7 @@ public:
     void studentMenu();
     void professorMenu();
     void messWorkerMenu();
+    void registerAndLogin(const std::string& userType, const std::string& dataFile, void (UI::*inputFunc)());
 };
 
 void UI::display() {
@@ -48,7 +49,7 @@ void UI::display() {
     }
 }
 
-void UI::studentMenu() {
+void UI::registerAndLogin(const std::string& userType, const std::string& dataFile, void (UI::*inputFunc)()) {
     std::cout << "\n Menu 1. New id 2. Login old id ";
     int ch1;
     std::cin >> ch1;
@@ -70,10 +71,10 @@ void UI::studentMenu() {
             }
         } while (true);
 
-        p1.student_input();
+        (this->*inputFunc)();
 
-        std::ofstream fout("student.dat", std::ios::out | std::ios::binary | std::ios::app);
-        fout.write(reinterpret_cast<char*>(this), sizeof(UI));
+        std::ofstream fout(dataFile, std::ios::out | std::ios::binary | std::ios::app);
+        fout.write(reinterpret_cast<std::byte*>(this), sizeof(UI));
         fout.close();
     } else if (ch1 == 2) {
         // Login with existing ID
@@ -87,9 +88,9 @@ void UI::studentMenu() {
 
         UI A;
         int f = 0;
-        std::ifstream fin("student.dat", std::ios::in | std::ios::binary);
+        std::ifstream fin(dataFile, std::ios::in | std::ios::binary);
 
-        while (fin.read(reinterpret_cast<char*>(&A), sizeof(A))) {
+        while (fin.read(reinterpret_cast<std::byte*>(&A), sizeof(A))) {
             if (A.loginid == lg && A.password == ps) {
                 std::cout << "\n Welcome back\n";
                 f = 1;
@@ -100,131 +101,24 @@ void UI::studentMenu() {
         if (f == 0) {
             std::cout << "\n Wrong credentials";
         } else {
-            A.p1.menu();
+            (A.*inputFunc)();
         }
     } else {
         std::cout << "\n Invalid choice.";
     }
+}
+
+void UI::studentMenu() {
+    registerAndLogin("student", "student.dat", &UI::p1.student_input);
 }
 
 void UI::professorMenu() {
-    std::cout << "\n Menu 1. New id 2. Login old id ";
-    int ch1;
-    std::cin >> ch1;
-
-    if (ch1 == 1) {
-        // New ID
-        std::cout << "\n Enter your id (no) you would like to have : ";
-        std::cin >> loginid;
-
-        do {
-            std::cout << "\n Enter the password: ";
-            std::cin.ignore();
-            std::getline(std::cin, password);
-            std::cout << "\n Enter the password again for confirmation : ";
-            std::getline(std::cin, cpassword);
-
-            if (password == cpassword) {
-                break;
-            }
-        } while (true);
-
-        p2.professor_input();
-
-        std::ofstream fout("professor.dat", std::ios::out | std::ios::binary | std::ios::app);
-        fout.write(reinterpret_cast<char*>(this), sizeof(UI));
-        fout.close();
-    } else if (ch1 == 2) {
-        // Login with existing ID
-        std::cout << "\n Enter your login id : ";
-        int lg;
-        std::string ps;
-        std::cin >> lg;
-        std::cin.ignore();
-        std::cout << "\n Enter your password : ";
-        std::getline(std::cin, ps);
-
-        UI A;
-        int f = 0;
-        std::ifstream fin("professor.dat", std::ios::in | std::ios::binary);
-
-        while (fin.read(reinterpret_cast<char*>(&A), sizeof(A))) {
-            if (A.loginid == lg && A.password == ps) {
-                std::cout << "\n Welcome back\n";
-                f = 1;
-                break;
-            }
-        }
-
-        if (f == 0) {
-            std::cout << "\n Wrong credentials";
-        } else {
-            A.p2.menu();
-        }
-    } else {
-        std::cout << "\n Invalid choice.";
-    }
+    registerAndLogin("professor", "professor.dat", &UI::p2.professor_input);
 }
 
 void UI::messWorkerMenu() {
-    std::cout << "\n Menu 1. New id 2. Login old id ";
-    int ch1;
-    std::cin >> ch1;
-
-    if (ch1 == 1) {
-        // New ID
-        std::cout << "\n Enter your id (no) you would like to have : ";
-        std::cin >> loginid;
-
-        do {
-            std::cout << "\n Enter the password: ";
-            std::cin.ignore();
-            std::getline(std::cin, password);
-            std::cout << "\n Enter the password again for confirmation : ";
-            std::getline(std::cin, cpassword);
-
-            if (password == cpassword) {
-                break;
-            }
-        } while (true);
-
-        p3.messworker_input();
-
-        std::ofstream fout("messworker.dat", std::ios::out | std::ios::binary | std::ios::app);
-        fout.write(reinterpret_cast<char*>(this), sizeof(UI));
-        fout.close();
-    } else if (ch1 == 2) {
-        // Login with existing ID
-        std::cout << "\n Enter your login id : ";
-        int lg;
-        std::string ps;
-        std::cin >> lg;
-        std::cin.ignore();
-        std::cout << "\n Enter your password : ";
-        std::getline(std::cin, ps);
-
-        UI A;
-        int f = 0;
-        std::ifstream fin("messworker.dat", std::ios::in | std::ios::binary);
-
-        while (fin.read(reinterpret_cast<char*>(&A), sizeof(A))) {
-            if (A.loginid == lg && A.password == ps) {
-                std::cout << "\n Welcome back\n";
-                f = 1;
-                break;
-            }
-        }
-
-        if (f == 0) {
-            std::cout << "\n Wrong credentials";
-        } else {
-            A.p3.menu();
-        }
-    } else {
-        std::cout << "\n Invalid choice.";
-    }
+    registerAndLogin("mess worker", "messworker.dat", &UI::p3.messworker_input);
 }
-
 
 int main() {
     UI userInterface;
