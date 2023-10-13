@@ -30,8 +30,9 @@ void token::apply_token()
 
         unsigned int seed = static_cast<unsigned int>(seconds.count());
     
-        srand(seed);
-        int d=rand()%10;
+        std::mt19937 rng(seed);
+        std::uniform_int_distribution<int> distribution(1, 100);
+        int d = distribution(rng)%10;
         cout<<"\n Today s token is :" <<vfood[d]<<"\n Do you want to apply(y/n)";
         char ch3;
         cin>>ch3;
