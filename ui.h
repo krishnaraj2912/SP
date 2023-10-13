@@ -8,7 +8,8 @@
 #pragma once
 class ui
 {   int loginid;
-    char password[20],cpassword[20];
+    string password;
+    string cpassword;
  public:
     student p1;
     professor p2;
@@ -37,7 +38,7 @@ void ui::display(ui E)
                     gets(E.cpassword);
                     if(strcmp(E.password,E.cpassword)==0)
                         break;
-                }while(1);
+                }while(true);
                 E.p1.student_input();
                // cout<<"\n id:"<<E.password<<","<<E.loginid;
                 ofstream fout("student.dat",ios::out|ios::binary|ios::app);
@@ -47,7 +48,7 @@ void ui::display(ui E)
             else if(ch1==2)
             {   cout<<"\n Enter your login id : ";
                 int lg;
-                char ps[20];
+                string ps;
                 cin>>lg;
                 cin.ignore();
                 cout<<"\n enter your password : ";
@@ -92,7 +93,7 @@ void ui::display(ui E)
                     gets(E.cpassword);
                     if(strcmp(E.password,E.cpassword)==0)
                         break;
-                }while(1);
+                }while(true);
                 E.p2.professor_input();
                 ofstream fout("professor.dat",ios::out|ios::binary|ios::app);
                 fout.write((char*)&E,sizeof(E));
@@ -125,9 +126,6 @@ void ui::display(ui E)
                     {
                         A.p2.menu();
                     }
-
-
-
             }
         }
         else if(ch==3)
@@ -157,7 +155,7 @@ void ui::display(ui E)
             {
                 cout<<"\n Enter your login id : ";
                 int lg;
-                char ps[20];
+                string ps;
                 cin>>lg;
                 cin.ignore();
                 cout<<"\n enter your password : ";
