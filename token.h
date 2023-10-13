@@ -28,10 +28,10 @@ void token::apply_token()
         auto time_since_epoch = current_time.time_since_epoch();
         auto seconds = std::chrono::duration_cast<std::chrono::seconds>(time_since_epoch);
 
-        unsigned int seed = static_cast<unsigned int>(seconds.count());
+        auto seed = static_cast<unsigned int>(seconds.count());
     
         std::mt19937 rng(seed);
-        std::uniform_int_distribution<int> distribution(1, 100);
+        std::uniform_int_distribution distribution(1, 100);
         int d = distribution(rng)%10;
         cout<<"\n Today s token is :" <<vfood[d]<<"\n Do you want to apply(y/n)";
         char ch3;
@@ -43,8 +43,15 @@ void token::apply_token()
     }
     else if(ch2==2)
     {   
-        srand(time(0));
-        int d=rand()%10;
+        auto current_time = std::chrono::system_clock::now();
+        auto time_since_epoch = current_time.time_since_epoch();
+        auto seconds = std::chrono::duration_cast<std::chrono::seconds>(time_since_epoch);
+
+        auto seed = static_cast<unsigned int>(seconds.count());
+        
+        std::mt19937 rng(seed);
+        std::uniform_int_distribution distribution(1, 100);
+        int d = distribution(rng)%10;
         cout<<"\n Today s token is :" <<nvfood[d]<<"\n Do you want to apply(y/n)";
         char ch3;
         cin>>ch3;
