@@ -1,188 +1,234 @@
 #include <iostream>
-#include <string>
 #include <fstream>
+#include <string>
 #include "student.h"
 #include "professor.h"
 #include "messworker.h"
-//#include "messsupervisor.h"
 #pragma once
-class ui
-{   int loginid;
-    string password;
-    string cpassword;
- public:
-    student p1;
-    professor p2;
-    messworker p3;
-  //  messsupervisor p4;
-    void display(ui E);
 
+class UI {
+    int loginid;
+    std::string password;
+    std::string cpassword;
+
+public:
+    Student p1;
+    Professor p2;
+    MessWorker p3;
+
+    void display();
+    void studentMenu();
+    void professorMenu();
+    void messWorkerMenu();
 };
-void ui::display(ui E)
-{   cout<<"\n LOGIN SYTEM 1.STUDENT 2.PROFESSOR 3.MESS WORKER  ";
-        cout<<"\n Enter your choice : ";
-        int ch;
-        cin>>ch;
-        if(ch==1)
-        {   cout<<"\n Menu 1.New id 2.login old id ";
-            int ch1;
-            cin>>ch1;
-            if(ch1==1)
-            {   cout<<"\n Enter your id (no) you would like to have : ";
-                cin>>E.loginid;
-                do{
-                    cout<<"\n Enter the password:";
-                    cin.ignore();
-                    gets(E.password);
-                    cout<<"\n Enter the password again for conformation : ";
-                    gets(E.cpassword);
-                    if(strcmp(E.password,E.cpassword)==0)
-                        break;
-                }while(true);
-                E.p1.student_input();
-               // cout<<"\n id:"<<E.password<<","<<E.loginid;
-                ofstream fout("student.dat",ios::out|ios::binary|ios::app);
-                fout.write((char*)&E,sizeof(E));
-                fout.close();
+
+void UI::display() {
+    std::cout << "\n LOGIN SYSTEM 1. STUDENT 2. PROFESSOR 3. MESS WORKER ";
+    std::cout << "\n Enter your choice : ";
+    int ch;
+    std::cin >> ch;
+
+    switch (ch) {
+        case 1: {
+            studentMenu();
+            break;
+        }
+        case 2: {
+            professorMenu();
+            break;
+        }
+        case 3: {
+            messWorkerMenu();
+            break;
+        }
+        default: {
+            std::cout << "\n Invalid choice.";
+            break;
+        }
+    }
+}
+
+void UI::studentMenu() {
+    std::cout << "\n Menu 1. New id 2. Login old id ";
+    int ch1;
+    std::cin >> ch1;
+
+    if (ch1 == 1) {
+        // New ID
+        std::cout << "\n Enter your id (no) you would like to have : ";
+        std::cin >> loginid;
+
+        do {
+            std::cout << "\n Enter the password: ";
+            std::cin.ignore();
+            std::getline(std::cin, password);
+            std::cout << "\n Enter the password again for confirmation : ";
+            std::getline(std::cin, cpassword);
+
+            if (password == cpassword) {
+                break;
             }
-            else if(ch1==2)
-            {   cout<<"\n Enter your login id : ";
-                int lg;
-                string ps;
-                cin>>lg;
-                cin.ignore();
-                cout<<"\n enter your password : ";
-                gets(ps);
-                ui A;
-                int f=0;
-                ifstream fin("student.dat",ios::in|ios::binary);
+        } while (true);
 
-                while(fin.read((char*)&A,sizeof(A)))
-                {   //cout<<"hi:"<<A.loginid<<","<<A.password;
-                    if(A.loginid==lg &&strcmp(A.password,ps)==0)
-                    {   cout<<"\nWelcome back\n";
-                        f=1;
-                        break;
+        p1.student_input();
 
-                    }
+        std::ofstream fout("student.dat", std::ios::out | std::ios::binary | std::ios::app);
+        fout.write(reinterpret_cast<char*>(this), sizeof(UI));
+        fout.close();
+    } else if (ch1 == 2) {
+        // Login with existing ID
+        std::cout << "\n Enter your login id : ";
+        int lg;
+        std::string ps;
+        std::cin >> lg;
+        std::cin.ignore();
+        std::cout << "\n Enter your password : ";
+        std::getline(std::cin, ps);
 
-                }
-                if(f==0)
-                    cout<<"\n wrong credentials";
-            //using this do all student stuff.
-                else
-                {   A.p1.menu();
-                }
+        UI A;
+        int f = 0;
+        std::ifstream fin("student.dat", std::ios::in | std::ios::binary);
+
+        while (fin.read(reinterpret_cast<char*>(&A), sizeof(A))) {
+            if (A.loginid == lg && A.password == ps) {
+                std::cout << "\n Welcome back\n";
+                f = 1;
+                break;
             }
         }
-        else if(ch==2)
-        {
-            cout<<"\n Menu 1.New id 2.login old id ";
-            int ch1;
-            cin>>ch1;
-            if(ch1==1)
-            {
-                cout<<"\n Enter your id (no) you would like to have : ";
-                cin>>E.loginid;
-                do
-                {
-                    cout<<"\n Enter the password : ";
-                    cin.ignore();
-                    gets(E.password);
-                    cout<<"\n Enter the password again for conformation : ";
-                    gets(E.cpassword);
-                    if(strcmp(E.password,E.cpassword)==0)
-                        break;
-                }while(true);
-                E.p2.professor_input();
-                ofstream fout("professor.dat",ios::out|ios::binary|ios::app);
-                fout.write((char*)&E,sizeof(E));
+
+        if (f == 0) {
+            std::cout << "\n Wrong credentials";
+        } else {
+            A.p1.menu();
+        }
+    } else {
+        std::cout << "\n Invalid choice.";
+    }
+}
+
+void UI::professorMenu() {
+    std::cout << "\n Menu 1. New id 2. Login old id ";
+    int ch1;
+    std::cin >> ch1;
+
+    if (ch1 == 1) {
+        // New ID
+        std::cout << "\n Enter your id (no) you would like to have : ";
+        std::cin >> loginid;
+
+        do {
+            std::cout << "\n Enter the password: ";
+            std::cin.ignore();
+            std::getline(std::cin, password);
+            std::cout << "\n Enter the password again for confirmation : ";
+            std::getline(std::cin, cpassword);
+
+            if (password == cpassword) {
+                break;
             }
-            else if(ch1==2)
-            {
-                cout<<"\n Enter your login id : ";
-                int lg;
-                string ps;
-                cin>>lg;
-                cout<<"\n enter your password : ";
-                cin.ignore();
-                gets(ps);
-                ui A;
-                int f=0;
-                ifstream fin("professor.dat",ios::in|ios::binary);
-                while(fin.read((char*)&A,sizeof(A)))
-                {
-                    if(A.loginid==lg &&strcmp(A.password,ps)==0)
-                    {
-                        cout<<"\nWelcome back\n";
-                        f=1;
-                        break;
-                    }
-                }
-                if(f==0)
-                    cout<<"\n wrong credentials";
-                //using this do all student stuff.
-                else
-                    {
-                        A.p2.menu();
-                    }
+        } while (true);
+
+        p2.professor_input();
+
+        std::ofstream fout("professor.dat", std::ios::out | std::ios::binary | std::ios::app);
+        fout.write(reinterpret_cast<char*>(this), sizeof(UI));
+        fout.close();
+    } else if (ch1 == 2) {
+        // Login with existing ID
+        std::cout << "\n Enter your login id : ";
+        int lg;
+        std::string ps;
+        std::cin >> lg;
+        std::cin.ignore();
+        std::cout << "\n Enter your password : ";
+        std::getline(std::cin, ps);
+
+        UI A;
+        int f = 0;
+        std::ifstream fin("professor.dat", std::ios::in | std::ios::binary);
+
+        while (fin.read(reinterpret_cast<char*>(&A), sizeof(A))) {
+            if (A.loginid == lg && A.password == ps) {
+                std::cout << "\n Welcome back\n";
+                f = 1;
+                break;
             }
         }
-        else if(ch==3)
-        {
-            cout<<"\n Menu 1.New id 2.login old id ";
-            int ch1;
-            cin>>ch1;
-            if(ch1==1)
-            {
-                cout<<"\n Enter your id (no) you would like to have : ";
-                cin>>E.loginid;
-                do
-                {
-                    cin.ignore();
-                    cout<<"\n Enter the password : ";
-                    gets(E.password);
-                    cout<<"\n Enter the password again for conformation : ";
-                    gets(E.cpassword);
-                    if(strcmp(E.password,E.cpassword)==0)
-                        break;
-                }while(true);
-                E.p3.messworker_input();
-                ofstream fout("messworker.dat",ios::out|ios::binary|ios::app);
-                fout.write((char*)&E,sizeof(E));
-            }
-            else if(ch1==2)
-            {
-                cout<<"\n Enter your login id : ";
-                int lg;
-                string ps;
-                cin>>lg;
-                cin.ignore();
-                cout<<"\n enter your password : ";
-                gets(ps);
-                ui A;
-                int f=0;
-                ifstream fin("messworker.dat",ios::in|ios::binary);
-                while(fin.read((char*)&A,sizeof(A)))
-                {
-                    if(A.loginid==lg &&strcmp(A.password,ps)==0)
-                    {
-                        cout<<"\nWelcome back\n";
-                        f=1;
-                        break;
-                    }
-                }
-                if(f==0)
-                    cout<<"\n wrong credentials";
-                //using this do all student stuff.
-                else
-                {
-                    A.p3.menu();
-                }
 
-            }
-            else
-                cout<<"\n invalid choice:";
-
+        if (f == 0) {
+            std::cout << "\n Wrong credentials";
+        } else {
+            A.p2.menu();
         }
+    } else {
+        std::cout << "\n Invalid choice.";
+    }
+}
+
+void UI::messWorkerMenu() {
+    std::cout << "\n Menu 1. New id 2. Login old id ";
+    int ch1;
+    std::cin >> ch1;
+
+    if (ch1 == 1) {
+        // New ID
+        std::cout << "\n Enter your id (no) you would like to have : ";
+        std::cin >> loginid;
+
+        do {
+            std::cout << "\n Enter the password: ";
+            std::cin.ignore();
+            std::getline(std::cin, password);
+            std::cout << "\n Enter the password again for confirmation : ";
+            std::getline(std::cin, cpassword);
+
+            if (password == cpassword) {
+                break;
+            }
+        } while (true);
+
+        p3.messworker_input();
+
+        std::ofstream fout("messworker.dat", std::ios::out | std::ios::binary | std::ios::app);
+        fout.write(reinterpret_cast<char*>(this), sizeof(UI));
+        fout.close();
+    } else if (ch1 == 2) {
+        // Login with existing ID
+        std::cout << "\n Enter your login id : ";
+        int lg;
+        std::string ps;
+        std::cin >> lg;
+        std::cin.ignore();
+        std::cout << "\n Enter your password : ";
+        std::getline(std::cin, ps);
+
+        UI A;
+        int f = 0;
+        std::ifstream fin("messworker.dat", std::ios::in | std::ios::binary);
+
+        while (fin.read(reinterpret_cast<char*>(&A), sizeof(A))) {
+            if (A.loginid == lg && A.password == ps) {
+                std::cout << "\n Welcome back\n";
+                f = 1;
+                break;
+            }
+        }
+
+        if (f == 0) {
+            std::cout << "\n Wrong credentials";
+        } else {
+            A.p3.menu();
+        }
+    } else {
+        std::cout << "\n Invalid choice.";
+    }
+}
+
+
+int main() {
+    UI userInterface;
+    userInterface.display();
+
+    return 0;
 }
