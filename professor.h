@@ -10,7 +10,7 @@ class professor:public timetable
     int id;
     int count_tokken;
     int vc;
-    std:string name;
+    std::string name;
     char gender;
     float balance;
     std::vector<token> p(10);
